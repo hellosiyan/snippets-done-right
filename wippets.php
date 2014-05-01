@@ -50,6 +50,8 @@ function wippets_init() {
 	add_action('admin_enqueue_scripts', 'wippets_enqueue_ace');
 
 	add_action( 'edit_form_after_title', 'wippets_display_code_editor' );
+
+	add_action( 'save_post', 'wippets_snippet_on_save' );
 }
 
 function wippets_load() {

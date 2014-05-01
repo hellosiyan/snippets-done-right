@@ -26,6 +26,18 @@ function wippets_register_post_types() {
 	register_post_type( 'wippet_snippet', $args );
 }
 
+function wippets_snippet_get_language( $snippet_id ) {
+	if ( is_object( $snippet_id ) ) {
+		if ( empty( $snippet_id->ID ) ) {
+			return false;
+		}
+
+		$snippet_id = $snippet_id->ID;
+	}
+
+	return get_post_meta( $snippet_id, '_wippets_language', true );
+}
+
 function wippets_display_code_editor( $post ) {
 	$screen = get_current_screen();
 
@@ -33,5 +45,30 @@ function wippets_display_code_editor( $post ) {
 		return;
 	}
 
+	$snippet_language = wippets_snippet_get_language( $post->ID );
+
 	include( WIPPETS_PATH . '/templates/content-editor.php' );
+}
+
+function wippets_snippet_on_save( $post_id ) {
+	if ( ! isset( $_POST['wippets_snippet_editor'] ) ) {
+		return;
+	}
+
+	if ( ! wp_verify_nonce( $_POST['wippets_snippet_editor'], 'wippets_snippet_editor' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	
+
+	if ( isset( $_POST['wippets_language'] ) ) {
+		$snippet_language = sanitize_text_field( $_POST['wippets_language'] );
+		update_post_meta( $post_id, '_wippets_language', $snippet_language );
+	}
 }

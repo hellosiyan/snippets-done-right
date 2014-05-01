@@ -2,10 +2,6 @@ jQuery(function ($) {
 	function WippetsEditor () {};
 
 	$.extend(WippetsEditor.prototype, {
-		content_wrap: false,
-		ace_editor_container: false,
-		ace_editor: false,
-		textarea: false,
 		init: function () {
 			this.textarea = $( '#content' );
 			this.content_wrap = $( '#wp-content-wrap' );
@@ -19,6 +15,7 @@ jQuery(function ($) {
 			}).insertBefore( this.textarea );
 
 			this.initAce();
+			this.initToolbar();
 
 			this.switchEditorToAce();
 
@@ -29,9 +26,22 @@ jQuery(function ($) {
 
 			this.ace_editor = ace.edit( this.ace_editor_container.get(0) );
 
+			this.setMode( this.getMode() );
+
 			this.ace_editor.getSession().on( 'change', function () {
 				self.textarea.val( self.ace_editor.getSession().getValue() );
 			});
+		},
+		setMode: function ( mode ) {
+			if ( ! mode ) {
+				return;
+			};
+
+			this.ace_editor.getSession().setMode('ace/mode/' + mode);
+			this.content_wrap.find( 'input[name=wippets_language]' ).val( mode );
+		},
+		getMode: function () {
+			return this.content_wrap.find( 'input[name=wippets_language]' ).val();
 		},
 
 		/* Editor Tabs */
@@ -57,6 +67,48 @@ jQuery(function ($) {
 			this.content_wrap.removeClass('ace-active').addClass('text-active');
 
 			this.textarea.val( this.ace_editor.getSession().getValue() );
+		},
+
+		/* Editor Toolbar */
+		initToolbar: function () {
+			this.toolbar = {
+				element: this.content_wrap.find( '.wippets-toolbar' )
+			};
+
+			this.initModeSelector();
+		},
+		initModeSelector: function () {
+			var self = this;
+			var modelist = ace.require( 'ace/ext/modelist' );
+			var current_mode = this.getMode();
+
+			this.toolbar.language_selector = $( '<select>', {
+				name: 'wippets_language'
+			});
+
+			$( '<option>', {
+				text: 'Plain Text',
+				value: 'text'
+			}).appendTo( this.toolbar.language_selector );
+
+			for (var i = 0; i < modelist.modes.length; i++) {
+				if ( modelist.modes[i].name === 'text' ) {
+					continue;
+				};
+
+				$('<option>', {
+					text: modelist.modes[i].caption,
+					value: modelist.modes[i].name
+				}).appendTo( this.toolbar.language_selector );
+			};
+
+			this.toolbar.language_selector.val( current_mode );
+
+			this.toolbar.language_selector.on( 'change', function() {
+				self.setMode( this.value );
+			});
+
+			this.toolbar.language_selector.appendTo( this.toolbar.element );
 		}
 	});
 

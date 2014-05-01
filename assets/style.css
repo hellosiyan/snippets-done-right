@@ -14,3 +14,6 @@
 
 .text-active .switch-text, .ace-active .switch-ace {background: #f5f5f5; color: #555; height: 20px; border-bottom: 0; }
 .ace-active #content, .text-active #wippets_code_editor {display: none; }
+
+/* Toolbar */
+.wippets-toolbar { padding: 3px; position: relative; border-bottom: 1px solid #dedede; background: #f5f5f5; }
