@@ -16,23 +16,23 @@ jQuery(function ($) {
 
 			this.initAce();
 			this.initToolbar();
+			this.initResize();
+			this.initSwitchEditorTabs();
 
 			this.switchEditorToAce();
-
-			this.initSwitchEditorTabs();
 		},
 		initAce: function () {
 			var self = this;
 
 			this.ace_editor = ace.edit( this.ace_editor_container.get(0) );
 
-			this.setMode( this.getMode() );
+			this.setLanguage( this.getLanguage() );
 
 			this.ace_editor.getSession().on( 'change', function () {
 				self.textarea.val( self.ace_editor.getSession().getValue() );
 			});
 		},
-		setMode: function ( mode ) {
+		setLanguage: function ( mode ) {
 			if ( ! mode ) {
 				return;
 			};
@@ -40,7 +40,7 @@ jQuery(function ($) {
 			this.ace_editor.getSession().setMode('ace/mode/' + mode);
 			this.content_wrap.find( 'input[name=wippets_language]' ).val( mode );
 		},
-		getMode: function () {
+		getLanguage: function () {
 			return this.content_wrap.find( 'input[name=wippets_language]' ).val();
 		},
 
@@ -59,14 +59,25 @@ jQuery(function ($) {
 			});
 		},
 		switchEditorToAce: function () {
+			this.editor_mode = 'ace';
+
 			this.content_wrap.removeClass('text-active').addClass('ace-active');
 
 			this.ace_editor.setValue( this.textarea.get(0).value, -1 );
+
+			this.resizeTo( this.editor_height );
 		},
 		switchEditorToText: function () {
+			this.editor_mode = 'text';
+
 			this.content_wrap.removeClass('ace-active').addClass('text-active');
 
 			this.textarea.val( this.ace_editor.getSession().getValue() );
+
+			this.resizeTo( this.editor_height );
+		},
+		getEditorMode: function() {
+			return this.editor_mode;
 		},
 
 		/* Editor Toolbar */
@@ -75,12 +86,12 @@ jQuery(function ($) {
 				element: this.content_wrap.find( '.wippets-toolbar' )
 			};
 
-			this.initModeSelector();
+			this.initLanguageSelector();
 		},
-		initModeSelector: function () {
+		initLanguageSelector: function () {
 			var self = this;
-			var modelist = ace.require( 'ace/ext/modelist' );
-			var current_mode = this.getMode();
+			var ace_modelist = ace.require( 'ace/ext/modelist' );
+			var current_language = this.getLanguage();
 
 			this.toolbar.language_selector = $( '<select>', {
 				name: 'wippets_language'
@@ -91,24 +102,94 @@ jQuery(function ($) {
 				value: 'text'
 			}).appendTo( this.toolbar.language_selector );
 
-			for (var i = 0; i < modelist.modes.length; i++) {
-				if ( modelist.modes[i].name === 'text' ) {
+			for (var i = 0; i < ace_modelist.modes.length; i++) {
+				if ( ace_modelist.modes[i].name === 'text' ) {
 					continue;
 				};
 
 				$('<option>', {
-					text: modelist.modes[i].caption,
-					value: modelist.modes[i].name
+					text: ace_modelist.modes[i].caption,
+					value: ace_modelist.modes[i].name
 				}).appendTo( this.toolbar.language_selector );
 			};
 
-			this.toolbar.language_selector.val( current_mode );
+			this.toolbar.language_selector.val( current_language );
 
 			this.toolbar.language_selector.on( 'change', function() {
-				self.setMode( this.value );
+				self.setLanguage( this.value );
 			});
 
 			this.toolbar.language_selector.appendTo( this.toolbar.element );
+		},
+
+		/* Resize Handler */
+		initResize: function() {
+			var self = this;
+			var $handle = $('#post-status-info');
+			var $document = $(document);
+			var offset = 0, ace_active = true;
+
+			this.resizeTo( getUserSetting( 'ed_size' ) );
+
+			// No resize for touch devices
+			if ( 'ontouchstart' in window ) {
+				return;
+			}
+
+			function dragging( event ) {
+				var skip_view_update = ! ace_active;
+
+				self.resizeTo( offset + event.pageY, skip_view_update );
+
+				event.preventDefault();
+			}
+
+			function endDrag() {
+				var height;
+
+				if ( ace_active ) {
+					height = parseInt( self.ace_editor_container.height(), 10 );
+
+					if ( height && height > 50 && height < 5000 ) {
+						setUserSetting( 'ed_size', height );
+					}
+				}
+
+				$document.off( '.wippets-editor-resize' );
+			}
+
+			$handle.on( 'mousedown.wp-editor-resize', function( event ) {
+				ace_active = self.getEditorMode() == 'ace';
+				offset = 0 - event.pageY;
+				if ( ace_active ) {
+					offset += self.ace_editor_container.height();
+				} else {
+					offset += self.textarea.outerHeight();
+				}
+
+				$document.on( 'mousemove.wippets-editor-resize', dragging )
+				$document.on( 'mouseup.wippets-editor-resize mouseleave.wippets-editor-resize', endDrag );
+
+				event.preventDefault();
+			}).on( 'mouseup.wp-editor-resize', endDrag );
+		},
+		resizeTo: function( height, skip_view_update ) {
+			height = isNaN( height ) ? 0: parseInt( height );
+			height = Math.max( 50, height );
+			
+			this.editor_height = height;
+
+			if ( skip_view_update ) {
+				return;
+			};
+
+			if ( this.getEditorMode() == 'ace' ) {
+				this.ace_editor_container.outerHeight( height );
+				this.ace_editor.resize();
+			} else {
+				this.textarea.outerHeight( height );
+			}
+			
 		}
 	});
 
