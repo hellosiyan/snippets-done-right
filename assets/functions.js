@@ -19,12 +19,13 @@ jQuery(function ($) {
 			this.initResize();
 			this.initSwitchEditorTabs();
 
-			this.switchEditorToAce();
 		},
 		initAce: function () {
 			var self = this;
 
 			this.ace_editor = ace.edit( this.ace_editor_container.get(0) );
+
+			this.ace_editor.setValue( this.textarea.get(0).value, -1 );
 
 			this.setLanguage( this.getLanguage() );
 
@@ -57,6 +58,12 @@ jQuery(function ($) {
 					self.switchEditorToAce();
 				}
 			});
+
+			if ( this.getEditorMode() === 'ace' ) {
+				this.switchEditorToAce();
+			} else {
+				this.switchEditorToText();
+			};
 		},
 		switchEditorToAce: function () {
 			this.editor_mode = 'ace';
@@ -66,6 +73,8 @@ jQuery(function ($) {
 			this.ace_editor.setValue( this.textarea.get(0).value, -1 );
 
 			this.resizeTo( this.editor_height );
+
+			setUserSetting( 'wippets_editor', 'ace' );
 		},
 		switchEditorToText: function () {
 			this.editor_mode = 'text';
@@ -75,8 +84,24 @@ jQuery(function ($) {
 			this.textarea.val( this.ace_editor.getSession().getValue() );
 
 			this.resizeTo( this.editor_height );
+
+			setUserSetting( 'wippets_editor', 'text' );
 		},
 		getEditorMode: function() {
+			var mode;
+
+			if ( typeof this['editor_mode'] !== 'undefined' ) {
+				return this.editor_mode;
+			}
+
+			mode = getUserSetting( 'wippets_editor');
+
+			if ( mode !== 'ace' && mode !== 'text' ) {
+				mode = getUserSetting( 'editor') === 'tinymce' ? 'ace': 'text';
+			};
+
+			this.editor_mode = mode;
+
 			return this.editor_mode;
 		},
 
