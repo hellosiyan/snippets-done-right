@@ -10,7 +10,7 @@
 		</div>
 		<div id="wp-content-editor-container" class="wp-editor-container">
 			<div id="ed_toolbar" class="wippets-toolbar"></div>
-			<textarea class="wp-editor-area" name="content" id="content"><?php echo esc_textarea($post->post_content); ?></textarea>
+			<textarea class="wp-editor-area wippets-enabled-editor-area" name="content" id="content"><?php echo esc_textarea($post->post_content); ?></textarea>
 		</div>
 	</div>
 	<table id="post-status-info"><tbody>

@@ -1,4 +1,6 @@
 jQuery(function ($) {
+	var $document = $(document);
+
 	function WippetsEditor () {};
 
 	$.extend(WippetsEditor.prototype, {
@@ -151,7 +153,6 @@ jQuery(function ($) {
 		initResize: function() {
 			var self = this;
 			var $handle = $('#post-status-info');
-			var $document = $(document);
 			var offset = 0, ace_active = true;
 
 			this.resizeTo( getUserSetting( 'ed_size' ) );
@@ -218,6 +219,73 @@ jQuery(function ($) {
 		}
 	});
 
-	var editor = new WippetsEditor();
-	editor.init();
+	/* Init Wippets editor */
+	(function () {
+		var editor;
+
+		if ( $('#content.wippets-enabled-editor-area').length === 0 ) {
+			return;
+		};
+
+		editor = new WippetsEditor();
+		editor.init();
+	})();
+
+	/* embed Snippet screen */
+	(function () {
+		if ( $('#wippets-embed-snippet-button').length === 0 ) {
+			return;
+		};
+
+		$document.on( 'submit', '#wippets-embed-snippet-form', function (ev) {
+			var form = $(this);
+			var snippet_id;
+			var shortcode;
+
+			ev.preventDefault();
+
+			snippet_id = parseInt( form.find('#wippet_snippet_id').val() );
+
+			if ( isNaN( snippet_id ) || snippet_id < 1 ) {
+				return;
+			};
+
+			addSnippet( snippet_id );
+
+			tb_remove();
+		});
+
+		function addSnippet( snippet_id ) {
+			var editor, shortcode,
+				hasTinymce = typeof tinymce !== 'undefined',
+				hasQuicktags = typeof QTags !== 'undefined';
+
+			shortcode = '[snippet id="' + snippet_id + '"]';
+
+			if ( send_to_editor ) {
+				return send_to_editor( shortcode );
+			}
+
+			if ( ! wpActiveEditor ) {
+				if ( ! hasQuicktags ) {
+					return false;
+				}
+
+				if ( hasTinymce && tinymce.activeEditor ) {
+					editor = tinymce.activeEditor;
+					wpActiveEditor = window.wpActiveEditor = editor.id;
+				}
+			} else if ( hasTinymce ) {
+				editor = tinymce.get( wpActiveEditor );
+			}
+
+			if ( editor && ! editor.isHidden() ) {
+				editor.execCommand( 'mceInsertContent', false, shortcode );
+			} else if ( hasQuicktags ) {
+				QTags.insertContent( shortcode );
+			} else {
+				document.getElementById( wpActiveEditor ).value += shortcode;
+			}
+		}
+	})();
 });

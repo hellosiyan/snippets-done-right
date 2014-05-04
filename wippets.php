@@ -43,13 +43,15 @@ function wippets_init() {
 
 	wippets_register_post_types();
 
+	# Admin Init
+
+	if ( is_admin() ) {
+		wippets_admin_init();
+	}
+
 	# Add Actions
-	add_action('admin_enqueue_scripts', 'wippets_enqueue_admin_scripts');
-
-	add_action('wp_enqueue_scripts', 'wippets_enqueue_ace');
-	add_action('admin_enqueue_scripts', 'wippets_enqueue_ace');
-
-	add_action( 'edit_form_after_title', 'wippets_display_code_editor' );
+	
+	add_action( 'wp_enqueue_scripts', 'wippets_enqueue_ace' );
 
 	add_action( 'save_post', 'wippets_snippet_on_save' );
 }
@@ -64,15 +66,6 @@ function wippets_load() {
 
 	include_once( WIPPETS_PATH . '/lib/snippets.php' );
 	include_once( WIPPETS_PATH . '/lib/ace.php' );
-}
 
-function wippets_enqueue_admin_scripts() {
-	$screen = get_current_screen();
-
-	if ( $screen->base !== 'post' || $screen->id !== 'wippet_snippet' ) {
-		return;
-	}
-
-	wp_enqueue_script('wippets-functions-admin', WIPPETS_URL . '/assets/functions.js', array( 'jquery' ), WIPPETS_VERSION);
-	wp_enqueue_style('wippets-style-admin', WIPPETS_URL . '/assets/style.css', array( ), WIPPETS_VERSION);
+	include_once( WIPPETS_PATH . '/lib/admin.php' );
 }
