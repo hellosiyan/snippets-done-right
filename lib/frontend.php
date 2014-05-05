@@ -27,9 +27,19 @@ function wippets_do_shortcode_snippet( $atts ) {
 
 	$language = wippets_snippet_get_language( $snippet->ID );
 
+	$show_lines = 'true';
+	if ( isset( $atts['line_numbers'] ) && $atts['line_numbers'] === 'false' ) {
+		$show_lines = 'false';
+	}
+
+	$height = 0;
+	if ( isset( $atts['height'] ) ) {
+		$height = max( 0, intval( $atts['height'] ) );
+	}
+
 	$html = '';
 
-	$html .= '<div class="wippets-snippet-container" data-language="' . esc_attr( $language ) . '">';
+	$html .= '<div class="wippets-snippet-container" data-language="' . esc_attr( $language ) . '" data-show-lines="' . esc_attr( $show_lines ) . '" data-height="' . esc_attr( $height ) . '">';
 	$html .= '<pre class="wippets-snippet-box">';
 
 	$html .= esc_html( $snippet->post_content );

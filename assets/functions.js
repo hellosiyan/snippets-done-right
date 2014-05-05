@@ -170,7 +170,7 @@ jQuery(function ($) {
 				event.preventDefault();
 			}
 
-			function endDrag() {
+			function endDrag( event ) {
 				var height;
 
 				if ( ace_active ) {
@@ -179,6 +179,9 @@ jQuery(function ($) {
 					if ( height && height > 50 && height < 5000 ) {
 						setUserSetting( 'ed_size', height );
 					}
+
+					// Prevent core WordPress script from handling the event
+					event.stopImmediatePropagation();
 				}
 
 				$document.off( '.wippets-editor-resize' );
@@ -187,6 +190,7 @@ jQuery(function ($) {
 			$handle.on( 'mousedown.wp-editor-resize', function( event ) {
 				ace_active = self.getEditorMode() == 'ace';
 				offset = 0 - event.pageY;
+
 				if ( ace_active ) {
 					offset += self.ace_editor_container.height();
 				} else {
@@ -239,8 +243,8 @@ jQuery(function ($) {
 
 		$document.on( 'submit', '#wippets-embed-snippet-form', function (ev) {
 			var form = $(this);
-			var snippet_id;
-			var shortcode;
+			var snippet_id, height;
+			var shortcode_args;
 
 			ev.preventDefault();
 
@@ -250,38 +254,54 @@ jQuery(function ($) {
 				return;
 			};
 
-			addSnippet( snippet_id );
+			height = parseInt( form.find('#wippet_height').val() );
+
+			if ( isNaN( height ) || height < 0 ) {
+				height = 0;
+			};
+
+			shortcode_args = [];
+
+			shortcode_args.push( 'id="' + snippet_id + '"' );
+			shortcode_args.push( 'height="' + height + '"' );
+
+			if ( form.find('#wippet_show_line_numbers:checked').length === 0 ) {
+				shortcode_args.push( 'line_numbers="false"' );
+			} else {
+				shortcode_args.push( 'line_numbers="true"' );
+			}
+
+			addSnippet( '[snippet ' + shortcode_args.join( ' ' ) + ']' );
 
 			tb_remove();
 		});
 
-		function addSnippet( snippet_id ) {
-			var editor, shortcode,
-				hasTinymce = typeof tinymce !== 'undefined',
-				hasQuicktags = typeof QTags !== 'undefined';
+		function addSnippet( shortcode ) {
+			var editor, shortcode;
+			var has_tinymce = typeof tinymce !== 'undefined';
+			var has_quicktags = typeof QTags !== 'undefined';
 
-			shortcode = '[snippet id="' + snippet_id + '"]';
 
 			if ( send_to_editor ) {
 				return send_to_editor( shortcode );
 			}
 
 			if ( ! wpActiveEditor ) {
-				if ( ! hasQuicktags ) {
+				if ( ! has_quicktags ) {
 					return false;
 				}
 
-				if ( hasTinymce && tinymce.activeEditor ) {
+				if ( has_tinymce && tinymce.activeEditor ) {
 					editor = tinymce.activeEditor;
 					wpActiveEditor = window.wpActiveEditor = editor.id;
 				}
-			} else if ( hasTinymce ) {
+			} else if ( has_tinymce ) {
 				editor = tinymce.get( wpActiveEditor );
 			}
 
 			if ( editor && ! editor.isHidden() ) {
 				editor.execCommand( 'mceInsertContent', false, shortcode );
-			} else if ( hasQuicktags ) {
+			} else if ( has_quicktags ) {
 				QTags.insertContent( shortcode );
 			} else {
 				document.getElementById( wpActiveEditor ).value += shortcode;

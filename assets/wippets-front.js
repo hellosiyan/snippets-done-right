@@ -14,15 +14,21 @@ jQuery( function ( $ ) {
 	$.extend( WippetsBox.prototype, {
 		init: function () {
 			var language = this.element.data( 'language' );
+			var show_lines = this.element.data( 'showLines' );
+			var height = this.element.data( 'height' );
 
 			this.ace_editor = ace.edit( this.container.get( 0 ) );
 
 			this.ace_editor.getSession().setMode( 'ace/mode/' + language );
+			this.ace_editor.setHighlightActiveLine( false );
 			this.ace_editor.setShowFoldWidgets( false );
 			this.ace_editor.setReadOnly( true );
 
+			height = height < 1 ? Infinity : height;
+
 			this.ace_editor.setOptions({
-				maxLines: Infinity
+				showGutter: show_lines,
+				maxLines: height
 			});
 		}
 	});
