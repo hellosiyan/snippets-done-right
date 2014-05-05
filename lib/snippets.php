@@ -35,7 +35,10 @@ function wippets_snippet_get_language( $snippet_id ) {
 		$snippet_id = $snippet_id->ID;
 	}
 
-	return get_post_meta( $snippet_id, '_wippets_language', true );
+	$language = get_post_meta( $snippet_id, '_wippets_language', true );
+	$language = empty( $language ) ? 'text': $language;
+
+	return $language;
 }
 
 function wippets_display_code_editor( $post ) {

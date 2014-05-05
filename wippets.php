@@ -47,6 +47,8 @@ function wippets_init() {
 
 	if ( is_admin() ) {
 		wippets_admin_init();
+	} else {
+		wippets_frontend_init();
 	}
 
 	# Add Actions
@@ -66,6 +68,6 @@ function wippets_load() {
 
 	include_once( WIPPETS_PATH . '/lib/snippets.php' );
 	include_once( WIPPETS_PATH . '/lib/ace.php' );
-
+	include_once( WIPPETS_PATH . '/lib/frontend.php' );
 	include_once( WIPPETS_PATH . '/lib/admin.php' );
 }
