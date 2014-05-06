@@ -36,7 +36,18 @@ if ( !defined('WPINC') ) {
 
 define('WIPPETS_VERSION', '1.0');
 
+register_activation_hook( __FILE__, 'wippets_activate' );
+
 add_action( 'init', 'wippets_init' );
+
+function wippets_activate() {
+	# Flush rewrite rules
+
+	wippets_load();
+	wippets_register_post_types();
+
+    flush_rewrite_rules();
+}
 
 function wippets_init() {
 	wippets_load();
