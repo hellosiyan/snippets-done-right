@@ -15,8 +15,8 @@ function wippets_admin_init() {
 function wippets_admin_enqueue_scripts() {
 	$screen = get_current_screen();
 
-	wp_register_style( 'wippets-style-admin', WIPPETS_URL . '/assets/style.css', array( ), WIPPETS_VERSION );
-	wp_register_script( 'wippets-functions-admin', WIPPETS_URL . '/assets/functions.js', array( 'jquery' ), WIPPETS_VERSION );
+	wp_register_style( 'wippets-style-admin', WIPPETS_URL . '/assets/wippets-admin.css', array( ), WIPPETS_VERSION );
+	wp_register_script( 'wippets-functions-admin', WIPPETS_URL . '/assets/wippets-admin.js', array( 'jquery' ), WIPPETS_VERSION );
 
 	// By default enqueue on snippet edit screen only
 	if ( $screen->base === 'post' && $screen->id === 'wippet_snippet' ) {

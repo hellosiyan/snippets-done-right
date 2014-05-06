@@ -28,6 +28,7 @@ jQuery(function ($) {
 			this.ace_editor = ace.edit( this.ace_editor_container.get(0) );
 
 			this.ace_editor.setValue( this.textarea.get(0).value, -1 );
+			this.ace_editor.setHighlightActiveLine( false );
 
 			this.setLanguage( this.getLanguage() );
 

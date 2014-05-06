@@ -15,12 +15,13 @@ function wippets_register_post_types() {
 			'not_found' => __( 'No snippets found.', 'wippets' ),
 			'not_found_in_trash' => __( 'No snippets found in Trash.', 'wippets' ),
 		),
-		'public'             => true,
-		'rewrite'            => array(
+		'public' => true,
+		'rewrite' => array(
 			'slug' => 'snippet'
 		),
-		'capability_type'    => 'post',
-		'supports'           => array( 'title', 'revisions' )
+		'capability_type' => 'post',
+		'exclude_from_search' => true,
+		'supports' => array( 'title', 'revisions' )
 	);
 
 	register_post_type( 'wippet_snippet', $args );
