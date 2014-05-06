@@ -22,6 +22,7 @@ jQuery( function ( $ ) {
 			this.ace_editor.getSession().setMode( 'ace/mode/' + language );
 			this.ace_editor.setHighlightActiveLine( false );
 			this.ace_editor.setShowFoldWidgets( false );
+			this.ace_editor.setShowPrintMargin( false );
 			this.ace_editor.setReadOnly( true );
 
 			height = height < 1 ? Infinity : height;
