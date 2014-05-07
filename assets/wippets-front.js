@@ -19,6 +19,7 @@ jQuery( function ( $ ) {
 
 			this.ace_editor = ace.edit( this.container.get( 0 ) );
 
+			this.ace_editor.setTheme( 'ace/theme/' + wippets_options.ace_theme );
 			this.ace_editor.getSession().setMode( 'ace/mode/' + language );
 			this.ace_editor.setHighlightActiveLine( false );
 			this.ace_editor.setShowFoldWidgets( false );
@@ -36,7 +37,7 @@ jQuery( function ( $ ) {
 
 	/* Init all boxes */
 	boxes.each( function () {
-		wippets_box = new WippetsBox( $(this) );
+		var wippets_box = new WippetsBox( $(this) );
 		wippets_box.init();
 	});
 });

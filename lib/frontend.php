@@ -53,4 +53,8 @@ function wippets_do_shortcode_snippet( $atts ) {
 function wippets_enqueue_frontend() {
 	wp_enqueue_style( 'wippets-style-front', WIPPETS_URL . '/assets/wippets-front.css', null, WIPPETS_VERSION );
 	wp_enqueue_script( 'wippets-functions-front', WIPPETS_URL . '/assets/wippets-front.js', array( 'jquery' ), WIPPETS_VERSION, true );
+	
+	// Pass plugin options to our javascript
+	$options = wippets_get_options();
+	wp_localize_script( 'wippets-functions-front', 'wippets_options', $options );
 }

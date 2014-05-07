@@ -27,10 +27,12 @@ jQuery(function ($) {
 
 			this.ace_editor = ace.edit( this.ace_editor_container.get(0) );
 
-			this.ace_editor.setValue( this.textarea.get(0).value, -1 );
+			this.ace_editor.setTheme( 'ace/theme/' + wippets_options.ace_theme );
 			this.ace_editor.setHighlightActiveLine( false );
-
+			this.ace_editor.setShowPrintMargin( false );
 			this.setLanguage( this.getLanguage() );
+
+			this.ace_editor.setValue( this.textarea.get(0).value, -1 );
 
 			this.ace_editor.getSession().on( 'change', function () {
 				self.textarea.val( self.ace_editor.getSession().getValue() );
@@ -236,7 +238,40 @@ jQuery(function ($) {
 		editor.init();
 	})();
 
-	/* embed Snippet screen */
+	/* Settings Page */
+	(function () {
+		var $form = $('#wippets-settings-form');
+
+		if ( $form.length == 0 ) {
+			return;
+		};
+
+		init_theme_selector();
+
+		function init_theme_selector() {
+			var ace_themelist, selected_theme;
+			var ace_theme_selector, theme_options;
+
+			theme_options = $();
+			ace_theme_selector = $('#wippets_ace_theme');
+			selected_theme = ace_theme_selector.data('default');
+			ace_themelist = ace.require( 'ace/ext/themelist' );
+
+			console.log( ace_themelist );
+
+			for (var i = 0; i < ace_themelist.themes.length; i++) {
+				theme_options = theme_options.add( $('<option>', {
+					text: ace_themelist.themes[i].caption,
+					value: ace_themelist.themes[i].name
+				}));
+			};
+
+			theme_options.appendTo( ace_theme_selector );
+			ace_theme_selector.val( selected_theme );
+		}
+	})();
+
+	/* Embed Snippet screen */
 	(function () {
 		if ( $('#wippets-embed-snippet-button').length === 0 ) {
 			return;

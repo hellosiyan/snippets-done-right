@@ -82,3 +82,15 @@ function wippets_load() {
 	include_once( WIPPETS_PATH . '/lib/frontend.php' );
 	include_once( WIPPETS_PATH . '/lib/admin.php' );
 }
+
+function wippets_get_options() {
+	$options = array(
+		'ace_theme' => 'textmate'
+	);
+
+	foreach ($options as $option_name => $default_value) {
+		$options[$option_name] = get_option( 'wippets_' . $option_name, $default_value );
+	}
+
+	return $options;
+}
