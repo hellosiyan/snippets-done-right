@@ -30,6 +30,7 @@ jQuery( function ( $ ) {
 
 			this.ace_editor.setOptions({
 				showGutter: show_lines,
+				useWorker: false,
 				maxLines: height
 			});
 		}

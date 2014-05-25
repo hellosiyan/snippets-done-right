@@ -290,6 +290,9 @@ jQuery(function ($) {
 				return;
 			};
 
+			snippet_title = form.find('#wippet_snippet_id option:selected').html();
+			snippet_title = snippet_title.replace(/["'\[\]]/g, '');
+
 			height = parseInt( form.find('#wippet_height').val() );
 
 			if ( isNaN( height ) || height < 0 ) {
@@ -299,6 +302,7 @@ jQuery(function ($) {
 			shortcode_args = [];
 
 			shortcode_args.push( 'id="' + snippet_id + '"' );
+			shortcode_args.push( 'title="' + snippet_title + '"' );
 			shortcode_args.push( 'height="' + height + '"' );
 
 			if ( form.find('#wippet_show_line_numbers:checked').length === 0 ) {
