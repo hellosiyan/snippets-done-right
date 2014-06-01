@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snippets Done Right
-Plugin URI: https://github.com/xsisqox/lime-export
+Plugin URI: https://github.com/xsisqox/snippets-done-right
 Description: Create, embed, publish and share code snippets
 Version: 1.0
 Author: Siyan Panayotov
