@@ -1,19 +1,19 @@
 <?php
 
-function wippets_register_post_types() {
+function sdr_register_post_types() {
 	$args = array(
 		'labels' => array(
-			'name' => __( 'Snippets', 'post type general name', 'wippets' ),
-			'singular_name' => __( 'Snippet', 'post type singular name', 'wippets' ),
-			'add_new_item' => __( 'Add New Snippet', 'wippets' ),
-			'new_item' => __( 'New Snippet', 'wippets' ),
-			'edit_item' => __( 'Edit Snippet', 'wippets' ),
-			'view_item' => __( 'View Snippet', 'wippets' ),
-			'all_items' => __( 'All Snippets', 'wippets' ),
-			'search_items' => __( 'Search Snippets', 'wippets' ),
-			'parent_item_colon' => __( 'Parent Snippets:', 'wippets' ),
-			'not_found' => __( 'No snippets found.', 'wippets' ),
-			'not_found_in_trash' => __( 'No snippets found in Trash.', 'wippets' ),
+			'name' => __( 'Snippets', 'post type general name', 'sdr' ),
+			'singular_name' => __( 'Snippet', 'post type singular name', 'sdr' ),
+			'add_new_item' => __( 'Add New Snippet', 'sdr' ),
+			'new_item' => __( 'New Snippet', 'sdr' ),
+			'edit_item' => __( 'Edit Snippet', 'sdr' ),
+			'view_item' => __( 'View Snippet', 'sdr' ),
+			'all_items' => __( 'All Snippets', 'sdr' ),
+			'search_items' => __( 'Search Snippets', 'sdr' ),
+			'parent_item_colon' => __( 'Parent Snippets:', 'sdr' ),
+			'not_found' => __( 'No snippets found.', 'sdr' ),
+			'not_found_in_trash' => __( 'No snippets found in Trash.', 'sdr' ),
 		),
 		'public' => true,
 		'rewrite' => array(
@@ -24,10 +24,10 @@ function wippets_register_post_types() {
 		'supports' => array( 'title', 'revisions' )
 	);
 
-	register_post_type( 'wippet_snippet', $args );
+	register_post_type( 'sdr_snippet', $args );
 }
 
-function wippets_snippet_get_language( $snippet_id ) {
+function sdr_snippet_get_language( $snippet_id ) {
 	if ( is_object( $snippet_id ) ) {
 		if ( empty( $snippet_id->ID ) ) {
 			return false;
@@ -36,30 +36,30 @@ function wippets_snippet_get_language( $snippet_id ) {
 		$snippet_id = $snippet_id->ID;
 	}
 
-	$language = get_post_meta( $snippet_id, '_wippets_language', true );
+	$language = get_post_meta( $snippet_id, '_sdr_language', true );
 	$language = empty( $language ) ? 'text': $language;
 
 	return $language;
 }
 
-function wippets_display_code_editor( $post ) {
+function sdr_display_code_editor( $post ) {
 	$screen = get_current_screen();
 
-	if ( $screen->base !== 'post' || $screen->id !== 'wippet_snippet' ) {
+	if ( $screen->base !== 'post' || $screen->id !== 'sdr_snippet' ) {
 		return;
 	}
 
-	$snippet_language = wippets_snippet_get_language( $post->ID );
+	$snippet_language = sdr_snippet_get_language( $post->ID );
 
-	include( WIPPETS_PATH . '/templates/content-editor.php' );
+	include( SDR_PATH . '/templates/content-editor.php' );
 }
 
-function wippets_snippet_on_save( $post_id ) {
-	if ( ! isset( $_POST['wippets_snippet_editor'] ) ) {
+function sdr_snippet_on_save( $post_id ) {
+	if ( ! isset( $_POST['sdr_snippet_editor'] ) ) {
 		return;
 	}
 
-	if ( ! wp_verify_nonce( $_POST['wippets_snippet_editor'], 'wippets_snippet_editor' ) ) {
+	if ( ! wp_verify_nonce( $_POST['sdr_snippet_editor'], 'sdr_snippet_editor' ) ) {
 		return;
 	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -71,8 +71,8 @@ function wippets_snippet_on_save( $post_id ) {
 	}
 	
 
-	if ( isset( $_POST['wippets_language'] ) ) {
-		$snippet_language = sanitize_text_field( $_POST['wippets_language'] );
-		update_post_meta( $post_id, '_wippets_language', $snippet_language );
+	if ( isset( $_POST['sdr_language'] ) ) {
+		$snippet_language = sanitize_text_field( $_POST['sdr_language'] );
+		update_post_meta( $post_id, '_sdr_language', $snippet_language );
 	}
 }

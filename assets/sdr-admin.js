@@ -1,9 +1,9 @@
 jQuery(function ($) {
 	var $document = $(document);
 
-	function WippetsEditor () {};
+	function SDREditor () {};
 
-	$.extend(WippetsEditor.prototype, {
+	$.extend(SDREditor.prototype, {
 		init: function () {
 			this.textarea = $( '#content' );
 			this.content_wrap = $( '#wp-content-wrap' );
@@ -13,7 +13,7 @@ jQuery(function ($) {
 			};
 
 			this.ace_editor_container = $('<div>', {
-				'id': 'wippets_code_editor'
+				'id': 'sdr_code_editor'
 			}).insertBefore( this.textarea );
 
 			this.initAce();
@@ -27,7 +27,7 @@ jQuery(function ($) {
 
 			this.ace_editor = ace.edit( this.ace_editor_container.get(0) );
 
-			this.ace_editor.setTheme( 'ace/theme/' + wippets_options.ace_theme );
+			this.ace_editor.setTheme( 'ace/theme/' + sdr_options.ace_theme );
 			this.ace_editor.setHighlightActiveLine( false );
 			this.ace_editor.setShowPrintMargin( false );
 			this.setLanguage( this.getLanguage() );
@@ -44,10 +44,10 @@ jQuery(function ($) {
 			};
 
 			this.ace_editor.getSession().setMode('ace/mode/' + mode);
-			this.content_wrap.find( 'input[name=wippets_language]' ).val( mode );
+			this.content_wrap.find( 'input[name=sdr_language]' ).val( mode );
 		},
 		getLanguage: function () {
-			return this.content_wrap.find( 'input[name=wippets_language]' ).val();
+			return this.content_wrap.find( 'input[name=sdr_language]' ).val();
 		},
 
 		/* Editor Tabs */
@@ -79,7 +79,7 @@ jQuery(function ($) {
 
 			this.resizeTo( this.editor_height );
 
-			setUserSetting( 'wippets_editor', 'ace' );
+			setUserSetting( 'sdr_editor', 'ace' );
 		},
 		switchEditorToText: function () {
 			this.editor_mode = 'text';
@@ -90,7 +90,7 @@ jQuery(function ($) {
 
 			this.resizeTo( this.editor_height );
 
-			setUserSetting( 'wippets_editor', 'text' );
+			setUserSetting( 'sdr_editor', 'text' );
 		},
 		getEditorMode: function() {
 			var mode;
@@ -99,7 +99,7 @@ jQuery(function ($) {
 				return this.editor_mode;
 			}
 
-			mode = getUserSetting( 'wippets_editor');
+			mode = getUserSetting( 'sdr_editor');
 
 			if ( mode !== 'ace' && mode !== 'text' ) {
 				mode = getUserSetting( 'editor') === 'tinymce' ? 'ace': 'text';
@@ -113,7 +113,7 @@ jQuery(function ($) {
 		/* Editor Toolbar */
 		initToolbar: function () {
 			this.toolbar = {
-				element: this.content_wrap.find( '.wippets-toolbar' )
+				element: this.content_wrap.find( '.sdr-toolbar' )
 			};
 
 			this.initLanguageSelector();
@@ -124,7 +124,7 @@ jQuery(function ($) {
 			var current_language = this.getLanguage();
 
 			this.toolbar.language_selector = $( '<select>', {
-				name: 'wippets_language'
+				name: 'sdr_language'
 			});
 
 			$( '<option>', {
@@ -187,7 +187,7 @@ jQuery(function ($) {
 					event.stopImmediatePropagation();
 				}
 
-				$document.off( '.wippets-editor-resize' );
+				$document.off( '.sdr-editor-resize' );
 			}
 
 			$handle.on( 'mousedown.wp-editor-resize', function( event ) {
@@ -200,8 +200,8 @@ jQuery(function ($) {
 					offset += self.textarea.outerHeight();
 				}
 
-				$document.on( 'mousemove.wippets-editor-resize', dragging )
-				$document.on( 'mouseup.wippets-editor-resize mouseleave.wippets-editor-resize', endDrag );
+				$document.on( 'mousemove.sdr-editor-resize', dragging )
+				$document.on( 'mouseup.sdr-editor-resize mouseleave.sdr-editor-resize', endDrag );
 
 				event.preventDefault();
 			}).on( 'mouseup.wp-editor-resize', endDrag );
@@ -226,21 +226,21 @@ jQuery(function ($) {
 		}
 	});
 
-	/* Init Wippets editor */
+	/* Init SDR editor */
 	(function () {
 		var editor;
 
-		if ( $('#content.wippets-enabled-editor-area').length === 0 ) {
+		if ( $('#content.sdr-enabled-editor-area').length === 0 ) {
 			return;
 		};
 
-		editor = new WippetsEditor();
+		editor = new SDREditor();
 		editor.init();
 	})();
 
 	/* Settings Page */
 	(function () {
-		var $form = $('#wippets-settings-form');
+		var $form = $('#sdr-settings-form');
 
 		if ( $form.length == 0 ) {
 			return;
@@ -253,7 +253,7 @@ jQuery(function ($) {
 			var ace_theme_selector, theme_options;
 
 			theme_options = $();
-			ace_theme_selector = $('#wippets_ace_theme');
+			ace_theme_selector = $('#sdr_ace_theme');
 			selected_theme = ace_theme_selector.data('default');
 			ace_themelist = ace.require( 'ace/ext/themelist' );
 
@@ -273,27 +273,27 @@ jQuery(function ($) {
 
 	/* Embed Snippet screen */
 	(function () {
-		if ( $('#wippets-embed-snippet-button').length === 0 ) {
+		if ( $('#sdr-embed-snippet-button').length === 0 ) {
 			return;
 		};
 
-		$document.on( 'submit', '#wippets-embed-snippet-form', function (ev) {
+		$document.on( 'submit', '#sdr-embed-snippet-form', function (ev) {
 			var form = $(this);
 			var snippet_id, height;
 			var shortcode_args;
 
 			ev.preventDefault();
 
-			snippet_id = parseInt( form.find('#wippet_snippet_id').val() );
+			snippet_id = parseInt( form.find('#sdr_snippet_id').val() );
 
 			if ( isNaN( snippet_id ) || snippet_id < 1 ) {
 				return;
 			};
 
-			snippet_title = form.find('#wippet_snippet_id option:selected').html();
+			snippet_title = form.find('#sdr_snippet_id option:selected').html();
 			snippet_title = snippet_title.replace(/["'\[\]]/g, '');
 
-			height = parseInt( form.find('#wippet_height').val() );
+			height = parseInt( form.find('#sdr_height').val() );
 
 			if ( isNaN( height ) || height < 0 ) {
 				height = 0;
@@ -305,7 +305,7 @@ jQuery(function ($) {
 			shortcode_args.push( 'title="' + snippet_title + '"' );
 			shortcode_args.push( 'height="' + height + '"' );
 
-			if ( form.find('#wippet_show_line_numbers:checked').length === 0 ) {
+			if ( form.find('#sdr_show_line_numbers:checked').length === 0 ) {
 				shortcode_args.push( 'line_numbers="false"' );
 			} else {
 				shortcode_args.push( 'line_numbers="true"' );

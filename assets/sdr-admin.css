@@ -1,7 +1,7 @@
 .wp-editor-container {clear: both; }
 
 /* Code Editor */
-#wippets_code_editor {min-height: 50px; }
+#sdr_code_editor {min-height: 50px; }
 
 /* Textarea */
 .wp-editor-area {font-family: Consolas,Monaco,monospace; font-size: 13px; padding: 10px; margin: 1px 0 0; line-height: 150%; border: 0 none; outline: 0; display: block; resize: vertical; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
@@ -13,10 +13,10 @@
 .wp-switch-editor {background: #ebebeb; border: 1px solid #dedede; color: #777; cursor: pointer; float: right; font: 13px/19px "Open Sans",sans-serif; height: 19px; margin: 5px 0 0 5px; padding: 3px 8px 4px; position: relative; top: 1px; }
 
 .text-active .switch-text, .ace-active .switch-ace {background: #f5f5f5; color: #555; height: 20px; border-bottom: 0; }
-.ace-active #content, .text-active #wippets_code_editor {display: none; }
+.ace-active #content, .text-active #sdr_code_editor {display: none; }
 
 /* Toolbar */
-.wippets-toolbar { padding: 3px; position: relative; border-bottom: 1px solid #dedede; background: #f5f5f5; }
+.sdr-toolbar { padding: 3px; position: relative; border-bottom: 1px solid #dedede; background: #f5f5f5; }
 
 /* Embed Snippet Popup */
-#wippets-embed-snippet-form label { display: block; font-weight: bold; font-size: 14px; line-height: 1.3; margin-bottom: 5px; }
+#sdr-embed-snippet-form label { display: block; font-weight: bold; font-size: 14px; line-height: 1.3; margin-bottom: 5px; }

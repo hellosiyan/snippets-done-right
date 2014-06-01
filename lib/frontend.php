@@ -1,31 +1,31 @@
 <?php
 
-function wippets_frontend_init() {
-	wippets_add_shortcodes();
+function sdr_frontend_init() {
+	sdr_add_shortcodes();
 
 	# Add Actions
 
-	add_action( 'wp_enqueue_scripts', 'wippets_enqueue_frontend' );
+	add_action( 'wp_enqueue_scripts', 'sdr_enqueue_frontend' );
 }
 
-function wippets_add_shortcodes() {
-	add_shortcode( 'snippet', 'wippets_do_shortcode_snippet' );
-	add_shortcode( 'wippets_snippet', 'wippets_do_shortcode_snippet' );
+function sdr_add_shortcodes() {
+	add_shortcode( 'snippet', 'sdr_do_shortcode_snippet' );
+	add_shortcode( 'sdr_snippet', 'sdr_do_shortcode_snippet' );
 }
 
-function wippets_do_shortcode_snippet( $atts ) {
+function sdr_do_shortcode_snippet( $atts ) {
 	if ( ! isset( $atts['id'] ) ) {
-		return;
+		return ;
 	}
 
 	$snippet_id = intval( $atts['id'] );
 	$snippet = get_post( $snippet_id );
 
-	if ( ! $snippet || $snippet->post_type != 'wippet_snippet' || $snippet->ID != $snippet_id ) {
+	if ( ! $snippet || $snippet->post_type != 'sdr_snippet' || $snippet->ID != $snippet_id ) {
 		return;
 	}
 
-	$language = wippets_snippet_get_language( $snippet->ID );
+	$language = sdr_snippet_get_language( $snippet->ID );
 
 	$show_lines = 'true';
 	if ( isset( $atts['line_numbers'] ) && $atts['line_numbers'] === 'false' ) {
@@ -39,8 +39,8 @@ function wippets_do_shortcode_snippet( $atts ) {
 
 	$html = '';
 
-	$html .= '<div class="wippets-snippet-container" data-language="' . esc_attr( $language ) . '" data-show-lines="' . esc_attr( $show_lines ) . '" data-height="' . esc_attr( $height ) . '">';
-	$html .= '<pre class="wippets-snippet-box">';
+	$html .= '<div class="sdr-snippet-container" data-language="' . esc_attr( $language ) . '" data-show-lines="' . esc_attr( $show_lines ) . '" data-height="' . esc_attr( $height ) . '">';
+	$html .= '<pre class="sdr-snippet-box">';
 
 	$html .= esc_html( $snippet->post_content );
 
@@ -50,11 +50,11 @@ function wippets_do_shortcode_snippet( $atts ) {
 	return $html;
 }
 
-function wippets_enqueue_frontend() {
-	wp_enqueue_style( 'wippets-style-front', WIPPETS_URL . '/assets/wippets-front.css', null, WIPPETS_VERSION );
-	wp_enqueue_script( 'wippets-functions-front', WIPPETS_URL . '/assets/wippets-front.js', array( 'jquery' ), WIPPETS_VERSION, true );
+function sdr_enqueue_frontend() {
+	wp_enqueue_style( 'sdr-style-front', SDR_URL . '/assets/sdr-front.css', null, SDR_VERSION );
+	wp_enqueue_script( 'sdr-functions-front', SDR_URL . '/assets/sdr-front.js', array( 'jquery' ), SDR_VERSION, true );
 	
 	// Pass plugin options to our javascript
-	$options = wippets_get_options();
-	wp_localize_script( 'wippets-functions-front', 'wippets_options', $options );
+	$options = sdr_get_options();
+	wp_localize_script( 'sdr-functions-front', 'sdr_options', $options );
 }
