@@ -102,7 +102,7 @@ jQuery(function ($) {
 			mode = getUserSetting( 'sdr_editor');
 
 			if ( mode !== 'ace' && mode !== 'text' ) {
-				mode = getUserSetting( 'editor') === 'tinymce' ? 'ace': 'text';
+				mode = getUserSetting( 'editor') === 'html' ? 'text': 'ace';
 			};
 
 			this.editor_mode = mode;
