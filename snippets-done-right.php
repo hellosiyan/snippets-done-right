@@ -2,14 +2,15 @@
 /*
 Plugin Name: Snippets Done Right
 Plugin URI: https://github.com/xsisqox/snippets-done-right
-Description: Create, embed, publish and share code snippets
+Description: Create and embed code snippets with syntax highlighting
 Version: 1.0
 Author: Siyan Panayotov
+Author URI: http://siyanpanayotov.com
 License: GPL2
 */
 
 /*
-Copyright (C) 2014 Siyan Panayotov <siyan.panayotov@gmail.com>
+Copyright (C) 2014 Siyan Panayotov <contact@siyanpanayotov.com>
 
 This file is part of Snippets Done Right.
 
