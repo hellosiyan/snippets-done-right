@@ -18,6 +18,8 @@ You can write your code snippets directly in the WordPress admin area, as you wo
 
 All snippets are available for embedding into posts, pages and custom post types via an `Embed Snippet` button in the standard WordPress content editor. Snippets are embedded as shortcodes.
 
+Usage instructions: [http://siyanpanayotov.com/project/snippets-done-right/](http://siyanpanayotov.com/project/snippets-done-right/)
+
 **Done right means...**  
 Seamless integration into your WordPress. No ads. No donate buttons. No backdoors.
 
@@ -26,6 +28,8 @@ Seamless integration into your WordPress. No ads. No donate buttons. No backdoor
 1. Upload `snippets-done-right` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use the Embed Snippet button to embed snippets into posts, pages and custom post types
+
+Usage instructions: [http://siyanpanayotov.com/project/snippets-done-right/](http://siyanpanayotov.com/project/snippets-done-right/)
 
 == Screenshots ==
 

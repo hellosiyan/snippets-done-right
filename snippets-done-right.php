@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snippets Done Right
-Plugin URI: https://github.com/xsisqox/snippets-done-right
+Plugin URI: http://siyanpanayotov.com/project/snippets-done-right/
 Description: Create and embed code snippets with syntax highlighting
 Version: 1.0
 Author: Siyan Panayotov
