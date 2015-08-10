@@ -13,7 +13,4 @@
 			<textarea class="wp-editor-area sdr-enabled-editor-area" name="content" id="content"><?php echo esc_textarea($post->post_content); ?></textarea>
 		</div>
 	</div>
-	<table id="post-status-info"><tbody>
-		<tr><td id="content-resize-handle" class="hide-if-no-js"><br></td></tr>
-	</tbody></table>
 </div>

@@ -155,56 +155,13 @@ jQuery(function ($) {
 		/* Resize Handler */
 		initResize: function() {
 			var self = this;
-			var $handle = $('#post-status-info');
-			var offset = 0, ace_active = true;
 
-			this.resizeTo( getUserSetting( 'ed_size' ) );
+			this.ace_editor.on( 'change', function () {
+				var lines_count = self.ace_editor.session.getLength();
+				var line_height = self.ace_editor.renderer.layerConfig.lineHeight;
 
-			// No resize for touch devices
-			if ( 'ontouchstart' in window ) {
-				return;
-			}
-
-			function dragging( event ) {
-				var skip_view_update = ! ace_active;
-
-				self.resizeTo( offset + event.pageY, skip_view_update );
-
-				event.preventDefault();
-			}
-
-			function endDrag( event ) {
-				var height;
-
-				if ( ace_active ) {
-					height = parseInt( self.ace_editor_container.height(), 10 );
-
-					if ( height && height > 50 && height < 5000 ) {
-						setUserSetting( 'ed_size', height );
-					}
-
-					// Prevent core WordPress script from handling the event
-					event.stopImmediatePropagation();
-				}
-
-				$document.off( '.sdr-editor-resize' );
-			}
-
-			$handle.on( 'mousedown.wp-editor-resize', function( event ) {
-				ace_active = self.getEditorMode() == 'ace';
-				offset = 0 - event.pageY;
-
-				if ( ace_active ) {
-					offset += self.ace_editor_container.height();
-				} else {
-					offset += self.textarea.outerHeight();
-				}
-
-				$document.on( 'mousemove.sdr-editor-resize', dragging )
-				$document.on( 'mouseup.sdr-editor-resize mouseleave.sdr-editor-resize', endDrag );
-
-				event.preventDefault();
-			}).on( 'mouseup.wp-editor-resize', endDrag );
+				self.resizeTo( (lines_count + 1) * line_height );
+			});
 		},
 		resizeTo: function( height, skip_view_update ) {
 			height = isNaN( height ) ? 0: parseInt( height );
@@ -256,8 +213,6 @@ jQuery(function ($) {
 			ace_theme_selector = $('#sdr_ace_theme');
 			selected_theme = ace_theme_selector.data('default');
 			ace_themelist = ace.require( 'ace/ext/themelist' );
-
-			console.log( ace_themelist );
 
 			for (var i = 0; i < ace_themelist.themes.length; i++) {
 				theme_options = theme_options.add( $('<option>', {
