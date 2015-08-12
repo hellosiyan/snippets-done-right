@@ -303,4 +303,23 @@ jQuery(function ($) {
 			}
 		}
 	})();
+
+	/* Snippets listing screen */
+	(function() {
+		var $rows = $('.wp-list-table.posts tr.type-sdr_snippet');
+		var ace_modelist;
+		var placeholder;
+
+		if ( $rows.length == 0 ) {
+			return;
+		};
+
+		ace_modelist = ace.require( 'ace/ext/modelist' );
+
+		for (var i = 0; i < ace_modelist.modes.length; i++) {
+			placeholder = $rows.find( 'span[data-language="' + ace_modelist.modes[i].name + '"]' );
+			placeholder.text( ace_modelist.modes[i].caption );
+		};
+
+	})();
 });

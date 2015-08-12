@@ -8,6 +8,8 @@ function sdr_admin_init() {
 	add_action( 'edit_form_after_title', 'sdr_display_code_editor' );
 	add_action( 'load-edit.php', 'sdr_embed_snippet_screen' );
 	add_action( 'admin_menu', 'sdr_add_settings_page' );
+	add_filter( 'manage_sdr_snippet_posts_columns' , 'sdr_add_custom_columns' );
+	add_action( 'manage_sdr_snippet_posts_custom_column' , 'sdr_display_custom_columns', 10, 2 );
 
 	add_action( 'admin_enqueue_scripts', 'sdr_enqueue_ace' );
 	add_action( 'admin_enqueue_scripts', 'sdr_admin_register_scripts' );
@@ -20,7 +22,8 @@ function sdr_admin_register_scripts() {
 	wp_register_script( 'sdr-functions-admin', SDR_URL . '/assets/sdr-admin.js', array( 'jquery' ), SDR_VERSION );
 
 	// By default enqueue on snippet edit screen only
-	if ( $screen->base === 'post' && $screen->id === 'sdr_snippet' ) {
+	if ( ($screen->base === 'post' && $screen->id === 'sdr_snippet')
+		|| ($screen->base === 'edit' && $screen->post_type === 'sdr_snippet') ) {
 		sdr_admin_enqueue_scripts();	
 	}
 }
@@ -107,4 +110,27 @@ function sdr_render_settings_page() {
 	$options = sdr_get_options();
 
 	include( SDR_PATH . '/templates/settings.php' );
+}
+
+function sdr_display_custom_columns( $column, $post_id ) {
+	switch ( $column ) {
+		case 'sdr_language':
+			echo '<span data-language="' . esc_attr( sdr_snippet_get_language( $post_id ) ) . '"></span>';;
+			break;
+	}
+}
+
+function sdr_add_custom_columns($columns) {
+	$new_columns = array();
+
+	// Append language column after Title
+	foreach ($columns as $key => $value) {
+		$new_columns[$key] = $value;
+
+		if ( $key == 'title' ) {
+			$new_columns['sdr_language'] = 'Language';
+		}
+	}
+
+    return $new_columns;
 }
