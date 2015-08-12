@@ -3,7 +3,7 @@
 Plugin Name: Snippets Done Right
 Plugin URI: http://siyanpanayotov.com/project/snippets-done-right/
 Description: Create and embed code snippets with syntax highlighting
-Version: 1.0
+Version: 1.1
 Author: Siyan Panayotov
 Author URI: http://siyanpanayotov.com
 License: GPL2
@@ -35,7 +35,7 @@ if ( !defined('WPINC') ) {
 	exit;
 }
 
-define('SDR_VERSION', '1.0');
+define('SDR_VERSION', '1.1');
 
 register_activation_hook( __FILE__, 'sdr_activate' );
 
