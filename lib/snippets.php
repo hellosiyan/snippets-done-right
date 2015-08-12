@@ -15,12 +15,12 @@ function sdr_register_post_types() {
 			'not_found' => __( 'No snippets found.', 'sdr' ),
 			'not_found_in_trash' => __( 'No snippets found in Trash.', 'sdr' ),
 		),
-		'public' => true,
+		'public' => false,
+		'show_ui' => true,
 		'rewrite' => array(
 			'slug' => 'snippet'
 		),
 		'capability_type' => 'post',
-		'exclude_from_search' => true,
 		'supports' => array( 'title', 'revisions' )
 	);
 
