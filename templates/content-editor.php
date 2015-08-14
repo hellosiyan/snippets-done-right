@@ -4,8 +4,8 @@
 		<input type="hidden" name="sdr_language" value="<?php echo esc_attr( $snippet_language ); ?>" />
 		<div id="wp-content-editor-tools" class="wp-editor-tools hide-if-no-js">
 			<div class="wp-editor-tabs">
-				<a id="content-text" class="wp-switch-editor switch-text">Text</a>
-				<a id="content-ace" class="wp-switch-editor switch-ace">Visual</a>
+				<a id="content-text" class="wp-switch-editor switch-text"><?php _e( 'Text', 'snippets-done-right' ) ?></a>
+				<a id="content-ace" class="wp-switch-editor switch-ace"><?php _e( 'Visual', 'snippets-done-right' ) ?></a>
 			</div>
 		</div>
 		<div id="wp-content-editor-container" class="wp-editor-container">

@@ -3,6 +3,7 @@
 Plugin Name: Snippets Done Right
 Plugin URI: http://siyanpanayotov.com/project/snippets-done-right/
 Description: Create and embed code snippets with syntax highlighting
+Text Domain: snippets-done-right
 Version: 1.1
 Author: Siyan Panayotov
 Author URI: http://siyanpanayotov.com
@@ -75,6 +76,8 @@ function sdr_load() {
 		return;
 	}
 
+	sdr_load_textdomain();
+
 	define('SDR_PATH', dirname(__FILE__));
 	define('SDR_URL', WP_PLUGIN_URL . '/' . basename(SDR_PATH) );
 
@@ -94,4 +97,8 @@ function sdr_get_options() {
 	}
 
 	return $options;
+}
+
+function sdr_load_textdomain() {
+	load_plugin_textdomain( 'snippets-done-right', false, basename(SDR_PATH) . '/languages' );
 }

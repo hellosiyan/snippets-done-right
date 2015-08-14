@@ -35,6 +35,10 @@ function sdr_admin_enqueue_scripts() {
 	// Pass plugin options to our javascript
 	$options = sdr_get_options();
 	wp_localize_script( 'sdr-functions-admin', 'sdr_options', $options );
+
+	wp_localize_script( 'sdr-functions-admin', 'sdr_strings', array(
+		'plain_text' => __( 'Plain Text', 'snippets-done-right' )
+	) );
 }
 
 function sdr_buttons_embed_snippet($editor_id = 'content') {
@@ -46,7 +50,7 @@ function sdr_buttons_embed_snippet($editor_id = 'content') {
 		'sdr-view-embed-script' => 'true'
 	), admin_url( 'edit.php' ) );
 
-	echo '<a href="' . esc_url( $embed_snippet_screen ) . '" id="sdr-embed-snippet-button" class="button thickbox" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Embed Snippet', 'sdr' ) . '">' . __( 'Embed Snippet', 'sdr' ) . '</a>';
+	echo '<a href="' . esc_url( $embed_snippet_screen ) . '" id="sdr-embed-snippet-button" class="button thickbox" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Embed Snippet', 'snippets-done-right' ) . '">' . __( 'Embed Snippet', 'snippets-done-right' ) . '</a>';
 }
 
 function sdr_embed_snippet_screen() {
@@ -69,8 +73,8 @@ function sdr_embed_snippet_screen() {
 function sdr_add_settings_page() {
 	$settings_page_name = add_submenu_page(
 		'edit.php?post_type=sdr_snippet',
-		'Snippets Settings',
-		'Settings',
+		__( 'Snippets Settings', 'snippets-done-right' ),
+		__( 'Settings', 'snippets-done-right' ),
 		'manage_options',
 		'sdr-settings',
 		'sdr_render_settings_page'
@@ -128,7 +132,7 @@ function sdr_add_custom_columns($columns) {
 		$new_columns[$key] = $value;
 
 		if ( $key == 'title' ) {
-			$new_columns['sdr_language'] = 'Language';
+			$new_columns['sdr_language'] = __( 'Language', 'snippets-done-right' );
 		}
 	}
 

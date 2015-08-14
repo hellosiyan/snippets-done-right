@@ -128,7 +128,7 @@ jQuery(function ($) {
 			});
 
 			$( '<option>', {
-				text: 'Plain Text',
+				text: sdr_strings.plain_text,
 				value: 'text'
 			}).appendTo( this.toolbar.language_selector );
 
@@ -234,7 +234,7 @@ jQuery(function ($) {
 
 		$document.on( 'submit', '#sdr-embed-snippet-form', function (ev) {
 			var form = $(this);
-			var snippet_id, height;
+			var snippet_id, snippet_title, height;
 			var shortcode_args;
 
 			ev.preventDefault();
