@@ -20,4 +20,22 @@
 .sdr-toolbar { padding: 3px; position: relative; border-bottom: 1px solid #dedede; background: #f5f5f5; }
 
 /* Embed Snippet Popup */
+#sdr-embed-dialog-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; min-height: 360px; background: #000; opacity: 0.7; z-index: 100100; }
+#sdr-embed-dialog-wrap { display: none; background-color: #fff; -webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 ); box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 ); width: 500px; overflow: hidden; margin-left: -250px; margin-top: -175px; position: fixed; top: 50%; left: 50%; z-index: 100105; -webkit-transition: height 0.2s, margin-top 0.2s; transition: height 0.2s, margin-top 0.2s; }
+
+#sdr-embed-dialog-title { background: #fcfcfc; border-bottom: 1px solid #dfdfdf; height: 36px; font-size: 18px; font-weight: 600; line-height: 36px; padding: 0 36px 0 16px; top: 0; right: 0; left: 0; }
+
+#sdr-embed-dialog-close { color: #666; padding: 0; position: absolute; top: 0; right: 0; width: 36px; height: 36px; text-align: center; background: none; border: none; cursor: pointer; }
+#sdr-embed-dialog-close:before { font: normal 20px/36px 'dashicons'; vertical-align: top; speak: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; width: 36px; height: 36px; content: '\f158'; }
+#sdr-embed-dialog-close:hover, #sdr-embed-dialog-close:focus { color: #00a0d2; }
+#sdr-embed-dialog-close:focus { outline: none; -webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8); box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8); }
+
+#sdr-embed-dialog-inner { padding: 0 16px; }
+
+#sdr-embed-snippet-form .submitbox { padding: 8px 16px; background: #fcfcfc; border-top: 1px solid #dfdfdf; }
+#sdr-embed-dialog-cancel { line-height: 25px; float: left; }
+#sdr-embed-dialog-update { line-height: 23px; float: right; }
+#sdr-embed-dialog-submit { float: right; margin-bottom: 0; }
+#sdr-embed-dialog-insert:after { display: block; content: ''; clear: both; }
+
 #sdr-embed-snippet-form label { display: block; font-weight: bold; font-size: 14px; line-height: 1.3; margin-bottom: 5px; }

@@ -6,10 +6,10 @@ function sdr_admin_init() {
 
 	add_action( 'media_buttons', 'sdr_buttons_embed_snippet', 11 );
 	add_action( 'edit_form_after_title', 'sdr_display_code_editor' );
-	add_action( 'load-edit.php', 'sdr_embed_snippet_screen' );
 	add_action( 'admin_menu', 'sdr_add_settings_page' );
 	add_filter( 'manage_sdr_snippet_posts_columns' , 'sdr_add_custom_columns' );
 	add_action( 'manage_sdr_snippet_posts_custom_column' , 'sdr_display_custom_columns', 10, 2 );
+	add_action( 'admin_print_footer_scripts', 'sdr_embed_snippet_dialog', 50 );
 
 	add_action( 'admin_enqueue_scripts', 'sdr_enqueue_ace' );
 	add_action( 'admin_enqueue_scripts', 'sdr_admin_register_scripts' );
@@ -45,19 +45,10 @@ function sdr_buttons_embed_snippet($editor_id = 'content') {
 	wp_enqueue_style( 'sdr-style-admin' );
 	wp_enqueue_script( 'sdr-functions-admin' );
 
-	$embed_snippet_screen = add_query_arg( array(
-		'post_type' => 'sdr_snippet',
-		'sdr-view-embed-script' => 'true'
-	), admin_url( 'edit.php' ) );
-
-	echo '<a href="' . esc_url( $embed_snippet_screen ) . '" id="sdr-embed-snippet-button" class="button thickbox" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Embed Snippet', 'snippets-done-right' ) . '">' . __( 'Embed Snippet', 'snippets-done-right' ) . '</a>';
+	echo '<a href="#" id="sdr-embed-snippet-button" class="button" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Embed Snippet', 'snippets-done-right' ) . '">' . __( 'Embed Snippet', 'snippets-done-right' ) . '</a>';
 }
 
-function sdr_embed_snippet_screen() {
-	if ( ! isset( $_GET['sdr-view-embed-script'] ) || $_GET['sdr-view-embed-script'] !== 'true' ) {
-		return;
-	}
-
+function sdr_embed_snippet_dialog() {
 	$snippets = get_posts(array(
 		'post_type' => 'sdr_snippet',
 		'post_status' => 'publish',
@@ -66,8 +57,7 @@ function sdr_embed_snippet_screen() {
 		'order' => 'ASC'
 	));
 
-	include( SDR_PATH . '/templates/embed-snippet-screen.php' );
-	exit;
+	include( SDR_PATH . '/templates/embed-snippet-dialog.php' );
 }
 
 function sdr_add_settings_page() {

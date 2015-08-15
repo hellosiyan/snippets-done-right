@@ -2,6 +2,7 @@ jQuery(function ($) {
 	var $document = $(document);
 
 	function SDREditor () {};
+	function SDREmbedPopup () {};
 
 	$.extend(SDREditor.prototype, {
 		init: function () {
@@ -183,6 +184,34 @@ jQuery(function ($) {
 		}
 	});
 
+	$.extend(SDREmbedPopup.prototype, {
+		init: function() {
+			var self = this;
+
+			this.backdrop = $('#sdr-embed-dialog-backdrop');
+			this.wrap = $('#sdr-embed-dialog-wrap');
+			this.close_button = $('#sdr-embed-dialog-close');
+			this.cancel_button = $('#sdr-embed-dialog-cancel');
+
+			this.close_button
+				.add(this.backdrop)
+				.add(this.cancel_button)
+				.on('click', function(e) {
+					e.preventDefault();
+					self.close();
+				});
+		},
+		open: function() {
+			this.backdrop.show();
+			this.wrap.show();
+		},
+		close: function() {
+			this.backdrop.hide();
+			this.wrap.hide();
+		}
+	});
+	
+
 	/* Init SDR editor */
 	(function () {
 		var editor;
@@ -228,9 +257,22 @@ jQuery(function ($) {
 
 	/* Embed Snippet screen */
 	(function () {
-		if ( $('#sdr-embed-snippet-button').length === 0 ) {
+		var button_open_dialog = $('#sdr-embed-snippet-button');
+		var popup;
+
+		if ( button_open_dialog.length === 0 ) {
 			return;
 		};
+
+		popup = new SDREmbedPopup();
+
+		popup.init();
+
+		button_open_dialog.on('click', function (e) {
+			e.preventDefault();
+			popup.open();
+		});
+
 
 		$document.on( 'submit', '#sdr-embed-snippet-form', function (ev) {
 			var form = $(this);
@@ -268,7 +310,7 @@ jQuery(function ($) {
 
 			addSnippet( '[snippet ' + shortcode_args.join( ' ' ) + ']' );
 
-			tb_remove();
+			popup.close();
 		});
 
 		function addSnippet( shortcode ) {
