@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Snippets Done Right 1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/snippets-done-"
 "right\n"
-"POT-Creation-Date: 2015-08-14 20:54:58+00:00\n"
+"POT-Creation-Date: 2015-08-15 11:10:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,19 +17,19 @@ msgstr ""
 msgid "Plain Text"
 msgstr ""
 
-#: lib/admin.php:53
+#: lib/admin.php:48 templates/embed-snippet-dialog.php:4
 msgid "Embed Snippet"
 msgstr ""
 
-#: lib/admin.php:76
+#: lib/admin.php:66
 msgid "Snippets Settings"
 msgstr ""
 
-#: lib/admin.php:77
+#: lib/admin.php:67
 msgid "Settings"
 msgstr ""
 
-#: lib/admin.php:135
+#: lib/admin.php:125
 msgid "Language"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Snippets"
 msgstr ""
 
-#: lib/snippets.php:7 templates/embed-snippet-screen.php:3
+#: lib/snippets.php:7 templates/embed-snippet-dialog.php:10
 msgid "Snippet"
 msgstr ""
 
@@ -85,27 +85,27 @@ msgstr ""
 msgid "Visual"
 msgstr ""
 
-#: templates/embed-snippet-screen.php:6
-msgid "Select Snippet"
+#: templates/embed-snippet-dialog.php:5
+msgid "Close"
 msgstr ""
 
-#: templates/embed-snippet-screen.php:14
-msgid "Height"
-msgstr ""
-
-#: templates/embed-snippet-screen.php:15
-msgid "lines"
-msgstr ""
-
-#: templates/embed-snippet-screen.php:16
-msgid "Enter <code>0</code> to show all lines"
-msgstr ""
-
-#: templates/embed-snippet-screen.php:22
+#: templates/embed-snippet-dialog.php:28
 msgid "Show line numbers"
 msgstr ""
 
-#: templates/embed-snippet-screen.php:27
+#: templates/embed-snippet-dialog.php:33
+msgid "Visible lines:"
+msgstr ""
+
+#: templates/embed-snippet-dialog.php:35
+msgid "Enter <code>0</code> to show all lines"
+msgstr ""
+
+#: templates/embed-snippet-dialog.php:41
+msgid "Cancel"
+msgstr ""
+
+#: templates/embed-snippet-dialog.php:44
 msgid "Insert"
 msgstr ""
 

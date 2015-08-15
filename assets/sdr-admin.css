@@ -39,3 +39,16 @@
 #sdr-embed-dialog-insert:after { display: block; content: ''; clear: both; }
 
 #sdr-embed-snippet-form label { display: block; font-weight: bold; font-size: 14px; line-height: 1.3; margin-bottom: 5px; }
+#sdr-embed-snippet-form label.inline { display: inline-block; font-weight: normal; font-size: inherit; line-height: inherit; margin-bottom: 0; }
+#sdr-embed-snippet-form #sdr_height { width: 5em; }
+
+#sdr-snippets-list { max-height: 175px; margin: 0; overflow: auto; border: 1px solid #dfdfdf; background: #fff; }
+#sdr-snippets-list ul { list-style: none; margin: 0; padding: 0; }
+#sdr-snippets-list li { margin: 0; padding: 4px 6px 4px 10px; border-bottom: 1px solid #f1f1f1; color: #32373c; cursor: pointer; }
+#sdr-snippets-list li input { vertical-align: top; margin-top: 1px; }
+#sdr-snippets-list li .item-title { display: inline-block; max-width: 80%; word-wrap: break-word; }
+#sdr-snippets-list li .item-info { float: right; color: #666; font-size: 0.9em; }
+#sdr-snippets-list li:nth-child(odd) { background: #f9f9f9; }
+#sdr-snippets-list li:hover { background: #eaf2fa; color: #000; }
+#sdr-snippets-list li.selected { background: #ddd; color: #32373c; }
+#sdr-snippets-list li.selected .item-title { font-weight: bold; }
