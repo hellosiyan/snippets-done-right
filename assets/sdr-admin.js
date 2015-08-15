@@ -190,6 +190,7 @@ jQuery(function ($) {
 
 			this.backdrop = $('#sdr-embed-dialog-backdrop');
 			this.wrap = $('#sdr-embed-dialog-wrap');
+			this.form = $('#sdr-embed-snippet-form');
 			this.close_button = $('#sdr-embed-dialog-close');
 			this.cancel_button = $('#sdr-embed-dialog-cancel');
 
@@ -208,6 +209,10 @@ jQuery(function ($) {
 		close: function() {
 			this.backdrop.hide();
 			this.wrap.hide();
+			this.resetForm();
+		},
+		resetForm: function() {
+			this.form.get(0).reset();
 		}
 	});
 	
