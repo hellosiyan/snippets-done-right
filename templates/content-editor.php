@@ -1,5 +1,5 @@
 <?php wp_nonce_field( 'sdr_snippet_editor', 'sdr_snippet_editor' ); ?>
-<div class="edit-form-section">
+<div class="sdr-edit-form-section">
 	<div id="wp-content-wrap" class="wp-core-ui wp-editor-wrap">
 		<input type="hidden" name="sdr_language" value="<?php echo esc_attr( $snippet_language ); ?>" />
 		<div id="wp-content-editor-tools" class="wp-editor-tools hide-if-no-js">
