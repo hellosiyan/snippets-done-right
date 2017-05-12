@@ -76,10 +76,10 @@ function sdr_load() {
 		return;
 	}
 
-	sdr_load_textdomain();
-
 	define('SDR_PATH', dirname(__FILE__));
 	define('SDR_URL', WP_PLUGIN_URL . '/' . basename(SDR_PATH) );
+
+	sdr_load_textdomain();
 
 	include_once( SDR_PATH . '/lib/snippets.php' );
 	include_once( SDR_PATH . '/lib/ace.php' );
